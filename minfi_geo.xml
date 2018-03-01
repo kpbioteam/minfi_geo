@@ -1,0 +1,36 @@
+<tool id="minfi_geo" name="minfi_geo" version="0.1.0">
+    <description>reading Illumina methylation array data from GEO</description>
+    <requirements>
+        <requirement type="package" version="1.24.0">bioconductor-minfi</requirement>
+        <requirement type="package" version="2.46.3">bioconductor-geoquery</requirement>
+        <requirement type="package" version="0.6.0">bioconductor-illuminahumanmethylation450kanno.ilmn12.hg19</requirement>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        Rscript ${__tool_directory__}/minfi_geo.R "$input1" "$input2" "$input3" "$output1"
+    ]]></command>
+    <inputs>
+        <param type="text" name="input1" value="GSE42752" label="Enter GEO accession" />
+        <param type="text" name="input2" value="1" label="Number of ExpressionSets" help="applicable if more than one ExpressionSet found"/>
+<param name="input3" type="select" label="Select value with associated genomic coordinates" help="This class holds M or Beta values (or both) together with associated genomic coordinates.">
+                        <option value="Beta">Beta</option>
+                        <option value="M">M</option>
+                    </param>
+    </inputs>
+    <outputs>
+        <data name="output1" format="rdata" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="input1" value="GSE42752"/>
+            <param name="input2" value="1"/>
+            <param name="input3" value="Beta"/>
+            <output name="output1" file="GRSet.rdata"/>
+        </test>
+    </tests>
+    <help><![CDATA[
+        This tool downloads data from GEO using getGEO from the GEOquery package and then returns a GenomicRatioSet object
+    ]]></help>
+    <citations>
+        <citation type="doi">10.1093/bioinformatics/btu049</citation>
+    </citations>
+</tool>
